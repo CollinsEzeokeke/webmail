@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@tanstack/react-virtual": "^3.13.24",
+    "@tiptap/core": "^3.23.1",
     "@tiptap/extension-color": "^3.22.4",
     "@tiptap/extension-image": "^3.22.4",
     "@tiptap/extension-link": "^3.22.4",
@@ -62,6 +63,7 @@
     "qrcode": "^1.5.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "sharp": "^0.34.5",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "webcrypto-liner": "^1.4.3",
@@ -102,5 +104,21 @@
     "flatted": "^3.4.2",
     "picomatch": "^4.0.4",
     "undici": "^7.24.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "elliptic": "^6.6.1",
+      "webcrypto-liner>elliptic": "^6.6.1",
+      "flatted": "^3.4.2",
+      "picomatch": "^4.0.4",
+      "undici": "^7.24.0"
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@swc/core",
+      "core-js",
+      "esbuild",
+      "sharp"
+    ]
   }
 }
