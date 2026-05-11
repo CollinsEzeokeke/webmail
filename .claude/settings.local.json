@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install *)",
+      "Bash(pnpm list *)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/@tiptap/core/package.json'\\).version\\)\")"
+    ]
+  }
+}
