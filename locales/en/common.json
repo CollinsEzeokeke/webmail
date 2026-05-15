@@ -1138,6 +1138,13 @@
       "last_sync": {
         "label": "Last Sync",
         "value": "{time}"
+      },
+      "profile_photo": {
+        "label": "Profile Photo",
+        "description": "Your avatar shown throughout the app",
+        "upload": "Upload Photo",
+        "change": "Change Photo",
+        "remove": "Remove"
       }
     },
     "security": {
@@ -1396,6 +1403,10 @@
       },
       "about": {
         "title": "Bulwark Webmail"
+      },
+      "gravatar_avatars": {
+        "label": "Gravatar Avatars",
+        "description": "Show profile photos from Gravatar for senders who have registered their email at gravatar.com"
       }
     },
     "sidebar_apps": {
