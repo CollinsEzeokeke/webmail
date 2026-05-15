@@ -7,17 +7,17 @@
 
   --color-border: #e2e8f0;
   --color-input: #e2e8f0;
-  --color-ring: #94a3b8;
+  --color-ring: hsl(158 64% 52%);
   --color-background: #ffffff;
   --color-foreground: #0f172a;
-  --color-primary: #3b82f6;
+  --color-primary: hsl(158 64% 52%);
   --color-primary-foreground: #ffffff;
   --color-secondary: #f8fafc;
   --color-secondary-foreground: #0f172a;
   --color-muted: #f1f5f9;
   --color-muted-foreground: #64748b;
-  --color-accent: #dbeafe;
-  --color-accent-foreground: #1e40af;
+  --color-accent: #f1f5f4;
+  --color-accent-foreground: hsl(158 64% 24%);
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
   --color-popover: #ffffff;
@@ -39,18 +39,18 @@
   --color-success-foreground: #ffffff;
   --color-warning: #eab308;
   --color-warning-foreground: #ffffff;
-  --color-info: #3b82f6;
+  --color-info: hsl(158 64% 52%);
   --color-info-foreground: #ffffff;
 
   /* Selection states */
-  --color-selection: #dbeafe;
-  --color-selection-foreground: #1e40af;
+  --color-selection: #e8f5f2;
+  --color-selection-foreground: hsl(158 64% 24%);
 
   /* Unread indicator */
-  --color-unread: #3b82f6;
+  --color-unread: hsl(158 64% 52%);
 
   /* Chart colors */
-  --color-chart-1: #3b82f6;
+  --color-chart-1: hsl(158 64% 52%);
   --color-chart-2: #22c55e;
   --color-chart-3: #f59e0b;
   --color-chart-4: #ef4444;
@@ -67,36 +67,50 @@
   --density-header-py: 12px;
   --density-card-p: 16px;
   --density-sidebar-py: 4px;
+
+  /* Nexa shared tokens */
+  --radius: 0.75rem;
+  --font-sans: var(--font-geist-sans);
+  --shadow-glow: 0 0 40px hsl(158 64% 52% / 0.2), 0 0 80px hsl(158 64% 52% / 0.08);
+  --shadow-elegant: 0 4px 32px rgba(0, 0, 0, 0.07), 0 2px 8px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-glass: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --shadow-float: 0 24px 64px rgba(0, 0, 0, 0.10), 0 8px 24px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --gradient-primary: linear-gradient(135deg, hsl(158 64% 52%), hsl(160 84% 39%));
+  --gradient-secondary: linear-gradient(135deg, hsl(158 64% 52% / 0.15), hsl(160 84% 39% / 0.08));
+  --gradient-hero: linear-gradient(160deg, #f0fdf8 0%, #ffffff 50%, #f0fdf8 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(158 64% 52% / 0.06), hsl(160 84% 39% / 0.03));
+  --gradient-glow: radial-gradient(circle, hsl(158 64% 52% / 0.08) 0%, transparent 70%);
+  --gradient-mesh: radial-gradient(at 20% 20%, hsl(158 64% 52% / 0.05) 0%, transparent 50%), radial-gradient(at 80% 80%, hsl(160 84% 39% / 0.04) 0%, transparent 50%);
 }
 
 .dark {
   --color-border: #262626;
   --color-input: #262626;
-  --color-ring: #d4d4d4;
-  --color-background: #0a0a0a;
+  --color-ring: hsl(158 64% 52%);
+  --color-background: #0c0c0c;
   --color-foreground: #fafafa;
-  --color-primary: #fafafa;
-  --color-primary-foreground: #171717;
-  --color-secondary: #262626;
+  --color-primary: hsl(158 64% 52%);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #171717;
   --color-secondary-foreground: #fafafa;
-  --color-muted: #262626;
+  --color-muted: #171717;
   --color-muted-foreground: #a3a3a3;
-  --color-accent: #1e3a8a;
-  --color-accent-foreground: #dbeafe;
+  --color-accent: #1f1f1f;
+  --color-accent-foreground: hsl(158 64% 72%);
   --color-destructive: #ef4444;
   --color-destructive-foreground: #fafafa;
-  --color-popover: #1c1c1c;
+  --color-popover: #121212;
   --color-popover-foreground: #fafafa;
 
   /* Sidebar */
-  --color-sidebar: #0a0a0a;
+  --color-sidebar: #0c0c0c;
   --color-sidebar-foreground: #fafafa;
-  --color-sidebar-border: #262626;
-  --color-sidebar-accent: #1a1a1a;
+  --color-sidebar-border: #222222;
+  --color-sidebar-accent: #1c1c1c;
   --color-sidebar-accent-foreground: #fafafa;
 
   /* Card */
-  --color-card: #141414;
+  --color-card: #111111;
   --color-card-foreground: #fafafa;
 
   /* Semantic status colors */
@@ -104,22 +118,29 @@
   --color-success-foreground: #ffffff;
   --color-warning: #ca8a04;
   --color-warning-foreground: #ffffff;
-  --color-info: #60a5fa;
+  --color-info: hsl(158 64% 65%);
   --color-info-foreground: #ffffff;
 
   /* Selection states */
-  --color-selection: rgba(59, 130, 246, 0.25);
-  --color-selection-foreground: #93c5fd;
+  --color-selection: hsl(158 64% 52% / 0.2);
+  --color-selection-foreground: hsl(158 64% 72%);
 
   /* Unread indicator */
-  --color-unread: #60a5fa;
+  --color-unread: hsl(158 64% 65%);
 
   /* Chart colors */
-  --color-chart-1: #60a5fa;
+  --color-chart-1: hsl(158 64% 65%);
   --color-chart-2: #4ade80;
   --color-chart-3: #fbbf24;
   --color-chart-4: #f87171;
   --color-chart-5: #a78bfa;
+
+  /* Nexa shared tokens (dark overrides) */
+  --shadow-glow: 0 0 40px hsl(158 64% 52% / 0.35), 0 0 80px hsl(158 64% 52% / 0.15);
+  --shadow-elegant: 0 4px 32px rgba(0, 0, 0, 0.30), 0 2px 8px rgba(0, 0, 0, 0.20), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-glass: 0 12px 40px rgba(0, 0, 0, 0.40), 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-float: 0 24px 64px rgba(0, 0, 0, 0.50), 0 8px 24px rgba(0, 0, 0, 0.30), 0 2px 6px rgba(0, 0, 0, 0.18);
+  --gradient-hero: linear-gradient(160deg, #0c0c0c 0%, #171717 50%, #0c0c0c 100%);
 }
 
 @theme inline {
@@ -161,6 +182,10 @@
   --color-chart-3: var(--color-chart-3);
   --color-chart-4: var(--color-chart-4);
   --color-chart-5: var(--color-chart-5);
+
+  /* Nexa brand fonts */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-heading: var(--font-space-grotesk), system-ui, sans-serif;
 }
 
 * {
@@ -793,4 +818,229 @@ body {
   outline-offset: 10px;
   border-radius: 8px;
   animation: settings-search-pulse 1.6s ease-in-out forwards;
+}
+
+/* ─── Nexa Login Design System ───────────────────────────────────────────── */
+
+:root {
+  --login-primary: hsl(158 64% 52%);
+  --login-primary-glow: hsl(167 82% 45%);
+  --login-gradient-btn: linear-gradient(135deg, hsl(158 64% 52%), hsl(160 84% 39%));
+  --login-glass-bg: rgba(255, 255, 255, 0.84);
+  --login-glass-border: rgba(0, 0, 0, 0.065);
+  --login-card-shadow:
+    0 0 0 1px hsl(158 64% 52% / 0.07),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.07),
+    0 20px 56px hsl(158 64% 52% / 0.12),
+    0 40px 80px rgba(0, 0, 0, 0.08);
+  --login-btn-shadow: 0 4px 20px hsl(158 64% 52% / 0.32);
+  --login-btn-shadow-hover: 0 6px 32px hsl(158 64% 52% / 0.5);
+  --login-blob-1: hsl(158 64% 52% / 0.11);
+  --login-blob-2: hsl(142 76% 36% / 0.09);
+  --login-page-bg: #f0fdf8;
+}
+
+.dark {
+  --login-glass-bg: rgba(8, 20, 18, 0.76);
+  --login-glass-border: rgba(255, 255, 255, 0.09);
+  --login-card-shadow:
+    0 0 0 1px hsl(158 64% 52% / 0.18),
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 20px 56px hsl(158 64% 52% / 0.2),
+    0 40px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --login-btn-shadow: 0 4px 20px hsl(158 64% 52% / 0.42);
+  --login-btn-shadow-hover: 0 6px 32px hsl(158 64% 52% / 0.6);
+  --login-blob-1: hsl(158 64% 52% / 0.2);
+  --login-blob-2: hsl(142 76% 36% / 0.15);
+  --login-page-bg: #020c0a;
+}
+
+/* ─── Loading dots ───────────────────────────────────────────────────────── */
+
+@keyframes dot-fade {
+  0%, 80%, 100% { opacity: 0.18; transform: scale(0.85); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+.loading-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--login-primary);
+  animation: dot-fade 1.6s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(2) { animation-delay: 0.28s; }
+.loading-dot:nth-child(3) { animation-delay: 0.56s; }
+
+/* Keyframes */
+
+@keyframes login-aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, -5%) scale(1.06); }
+  66% { transform: translate(-3%, 4%) scale(0.96); }
+}
+
+@keyframes login-aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(-5%, 4%) scale(1.09); }
+  70% { transform: translate(4%, -3%) scale(0.94); }
+}
+
+@keyframes login-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes login-glow-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.14); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-5px); }
+  30% { transform: translateX(5px); }
+  45% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  90% { transform: translateX(2px); }
+}
+
+/* Animation utility classes */
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+.animate-login-float {
+  animation: login-float 5s ease-in-out infinite;
+}
+
+/* Login page background */
+
+.login-page-bg {
+  background-color: var(--login-page-bg);
+}
+
+/* Aurora blobs */
+
+.login-aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(80px);
+  will-change: transform;
+}
+
+.login-aurora-blob-1 {
+  background: radial-gradient(circle, var(--login-blob-1), transparent 68%);
+  animation: login-aurora-1 24s ease-in-out infinite;
+}
+
+.login-aurora-blob-2 {
+  background: radial-gradient(circle, var(--login-blob-2), transparent 68%);
+  animation: login-aurora-2 30s ease-in-out infinite;
+}
+
+/* Card */
+
+.login-card {
+  background: var(--login-glass-bg);
+  border: 1px solid var(--login-glass-border);
+  box-shadow: var(--login-card-shadow);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+}
+
+/* Nexa platform badge */
+
+.login-nexa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: hsl(158 64% 52% / 0.09);
+  border: 1px solid hsl(158 64% 52% / 0.22);
+  color: var(--login-primary);
+}
+
+.dark .login-nexa-badge {
+  background: hsl(158 64% 52% / 0.13);
+  border-color: hsl(158 64% 52% / 0.28);
+}
+
+/* Logo glow ring */
+
+.login-logo-glow-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, hsl(158 64% 52% / 0.28) 0%, transparent 68%);
+  animation: login-glow-pulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Primary button */
+
+.login-btn-primary {
+  background: var(--login-gradient-btn) !important;
+  box-shadow: var(--login-btn-shadow);
+  transition: box-shadow 0.25s ease, filter 0.25s ease, transform 0.15s ease;
+  color: #fff !important;
+  border: none !important;
+}
+
+.login-btn-primary:hover:not(:disabled) {
+  box-shadow: var(--login-btn-shadow-hover);
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+.login-btn-primary:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+  filter: brightness(0.97);
+}
+
+.login-btn-primary:disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+}
+
+/* Input / Select focus ring (teal) */
+
+.login-input-field:focus {
+  border-color: hsl(158 64% 52% / 0.65) !important;
+  box-shadow: 0 0 0 3px hsl(158 64% 52% / 0.13) !important;
+  background-color: var(--color-background) !important;
+  outline: none;
+}
+
+.login-select-field:focus {
+  border-color: hsl(158 64% 52% / 0.65) !important;
+  box-shadow: 0 0 0 3px hsl(158 64% 52% / 0.13) !important;
+  outline: none;
+}
+
+/* Theme toggle button (glass style) */
+
+.login-theme-btn {
+  background: var(--login-glass-bg);
+  border: 1px solid var(--login-glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-theme-btn:hover {
+  border-color: hsl(158 64% 52% / 0.35);
+  box-shadow: 0 0 0 3px hsl(158 64% 52% / 0.08);
 }
