@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { Check, Plus, LogOut, Star, ChevronDown, AlertCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useAccountStore, type AccountEntry } from "@/stores/account-store";
 import { useAuthStore } from "@/stores/auth-store";
+import { useContactStore, getContactPhotoUri } from "@/stores/contact-store";
 import { getInitials, getMaxAccounts } from "@/lib/account-utils";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@/i18n/navigation";
@@ -19,6 +20,32 @@ interface AccountSwitcherProps {
 function AccountAvatar({ account, size = "sm" }: { account: AccountEntry; size?: "sm" | "md" }) {
   const initials = getInitials(account.displayName || account.label, account.email || account.username);
   const sizeClasses = size === "sm" ? "w-8 h-8 text-xs" : "w-9 h-9 text-sm";
+  const contacts = useContactStore((s) => s.contacts);
+
+  // Prefer cached photo, then fall back to self-contact in the contact store
+  // (the contact store is the source of truth after a fresh login from another device)
+  const photoUri = useMemo(() => {
+    if (account.profilePhotoUri) return account.profilePhotoUri;
+    const email = (account.email || account.username).toLowerCase();
+    for (const contact of contacts) {
+      if (!contact.emails) continue;
+      for (const e of Object.values(contact.emails)) {
+        if (e.address.toLowerCase() === email) return getContactPhotoUri(contact);
+      }
+    }
+    return undefined;
+  }, [account.profilePhotoUri, account.email, account.username, contacts]);
+
+  if (photoUri) {
+    return (
+      <img
+        src={photoUri}
+        alt={account.label}
+        className={cn("rounded-full object-cover flex-shrink-0", sizeClasses)}
+        title={account.label}
+      />
+    );
+  }
 
   return (
     <div

@@ -35,7 +35,7 @@ function getDueDateLabel(due: string, showWithoutTime: boolean, t: ReturnType<ty
   if (isToday(dueDate)) {
     return {
       label: t("tasks.due_today"),
-      className: "text-blue-600 dark:text-blue-400",
+      className: "text-primary",
     };
   }
   if (isTomorrow(dueDate)) {

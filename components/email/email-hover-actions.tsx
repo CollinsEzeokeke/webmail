@@ -37,7 +37,7 @@ const ACTION_CONFIG: Record<HoverAction, {
   markRead: {
     icon: Mail,
     titleKey: "mark_read",
-    className: "hover:text-blue-600 dark:hover:text-blue-400",
+    className: "hover:text-primary",
   },
   archive: {
     icon: Archive,

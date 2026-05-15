@@ -128,7 +128,7 @@ export function UnsubscribeBanner({
         <span className="text-muted-foreground/40 mx-1">·</span>
         <button
           onClick={() => setShowConfirm(true)}
-          className="text-xs text-blue-600 dark:text-blue-400 hover:underline bg-transparent p-0 min-h-0 leading-normal"
+          className="text-xs text-primary hover:underline bg-transparent p-0 min-h-0 leading-normal"
         >
           {t('email_viewer.unsubscribe_banner.button')}
         </button>

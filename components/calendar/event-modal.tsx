@@ -533,13 +533,13 @@ export function EventModal({
 
         <div className="flex-1 overflow-y-auto">
           <div className="px-6 py-4 space-y-3">
-            <div className="flex items-start gap-3 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/50 px-4 py-3">
-              <CalendarDays className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+            <div className="flex items-start gap-3 rounded-lg border border-primary/20 bg-primary/10 px-4 py-3">
+              <CalendarDays className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
               <div className="text-sm">
-                <p className="font-medium text-blue-900 dark:text-blue-200">
+                <p className="font-medium text-foreground">
                   {t("participants.invited_by", { name: organizerInfo?.name || organizerInfo?.email || t("participants.organizer") })}
                 </p>
-                <p className="text-blue-700 dark:text-blue-400 mt-0.5">
+                <p className="text-muted-foreground mt-0.5">
                   {t("participants.respond_below")}
                 </p>
               </div>

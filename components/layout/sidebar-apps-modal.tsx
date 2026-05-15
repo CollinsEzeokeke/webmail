@@ -313,7 +313,7 @@ export function SidebarAppsModal({ isOpen, onClose }: SidebarAppsModalProps) {
                   <span className={cn(
                     'text-[10px] px-1.5 py-0.5 rounded-full font-medium',
                     app.openMode === 'inline'
-                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400'
+                      ? 'bg-primary/10 text-primary'
                       : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'
                   )}>
                     {app.openMode === 'inline' ? t('inline_badge') : t('tab_badge')}

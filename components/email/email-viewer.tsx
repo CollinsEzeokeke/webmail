@@ -3966,7 +3966,7 @@ export function EmailViewer({
                     {email.to.length > 2 && (
                       <button
                         onClick={() => setShowFullHeaders(!showFullHeaders)}
-                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                        className="text-primary hover:underline text-sm"
                       >
                         {t('more_count', { count: email.to.length - 2 })}
                       </button>

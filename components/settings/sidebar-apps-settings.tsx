@@ -295,7 +295,7 @@ export function SidebarAppsSettings() {
                 <span className={cn(
                   "text-[10px] px-1.5 py-0.5 rounded-full flex-shrink-0",
                   app.openMode === "inline"
-                    ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"
+                    ? "bg-primary/10 text-primary"
                     : "bg-muted text-muted-foreground"
                 )}>
                   {app.openMode === "inline" ? tApps("inline_badge") : tApps("tab_badge")}

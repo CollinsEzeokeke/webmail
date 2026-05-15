@@ -97,7 +97,7 @@ const getIconForMailbox = (role?: string, name?: string, hasChildren?: boolean, 
 };
 
 const ROLE_ICON_COLOR: Record<string, string> = {
-  inbox: "text-blue-600/80 dark:text-blue-400/80",
+  inbox: "text-primary",
   sent: "text-emerald-600/80 dark:text-emerald-400/80",
   drafts: "text-violet-600/80 dark:text-violet-400/80",
   trash: "text-muted-foreground",

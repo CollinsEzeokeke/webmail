@@ -71,7 +71,7 @@ export function PWAInstallPrompt() {
               className="w-8 h-8 shrink-0 object-contain dark:hidden"
             />
           ) : (
-            <Download className="w-5 h-5 mt-0.5 text-blue-600 dark:text-blue-400 shrink-0" />
+            <Download className="w-5 h-5 mt-0.5 text-primary shrink-0" />
           )}
           {logoSrc && (
             <img
@@ -107,7 +107,7 @@ export function PWAInstallPrompt() {
           </button>
           <button
             onClick={handleInstall}
-            className="flex-1 px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors"
+            className="flex-1 px-3 py-2 text-sm font-medium text-primary-foreground bg-primary rounded hover:opacity-90 transition-opacity"
           >
             Install
           </button>

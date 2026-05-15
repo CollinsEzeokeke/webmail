@@ -11,7 +11,7 @@ import type { InstalledPlugin, PluginStatus, SettingFieldSchema } from '@/lib/pl
 
 const STATUS_COLORS: Record<PluginStatus, string> = {
   installed: 'bg-muted text-muted-foreground',
-  enabled: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+  enabled: 'bg-primary/10 text-primary',
   running: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
   disabled: 'bg-muted text-muted-foreground',
   error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
