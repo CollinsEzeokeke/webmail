@@ -19,6 +19,7 @@ import { generateCodeVerifier, generateCodeChallenge, generateState } from "@/li
 import { OAUTH_SCOPES } from "@/lib/oauth/tokens";
 import { useUpdateStore, selectBanner } from "@/stores/update-store";
 import type { PublicJmapServerEntry } from "@/lib/admin/jmap-servers";
+import { AuroraBlobs, NexaBadge } from "@/components/ui/aurora-shell";
 
 function findServerByDomain(servers: PublicJmapServerEntry[], email: string | undefined): PublicJmapServerEntry | undefined {
   if (!email || !email.includes("@")) return undefined;
@@ -143,7 +144,6 @@ export default function LoginPage() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [shakeError, setShakeError] = useState(false);
-  const [showThemeMenu, setShowThemeMenu] = useState(false);
 
   const [savedUsernames, setSavedUsernames] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -159,7 +159,6 @@ export default function LoginPage() {
   const justSelectedSuggestion = useRef(false);
   const totpInputRef = useRef<HTMLInputElement>(null);
   const prevError = useRef<string | null>(null);
-  const themeMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     initializeTheme();
@@ -284,9 +283,6 @@ export default function LoginPage() {
           inputRef.current && !inputRef.current.contains(event.target as Node)) {
         setShowSuggestions(false);
       }
-      if (themeMenuRef.current && !themeMenuRef.current.contains(event.target as Node)) {
-        setShowThemeMenu(false);
-      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -372,29 +368,26 @@ export default function LoginPage() {
 
   const handleThemeSelect = useCallback((newTheme: "light" | "dark" | "system") => {
     setTheme(newTheme);
-    setShowThemeMenu(false);
   }, [setTheme]);
 
   if (configLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/30">
-        <div className="w-full max-w-sm mx-auto px-4 text-center" role="status">
-          <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto" />
-          <span className="sr-only">{t("loading")}</span>
-        </div>
+      <div className="login-page-bg min-h-screen relative overflow-hidden" aria-hidden="true">
+        <AuroraBlobs />
       </div>
     );
   }
 
   if (configError) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/30">
-        <div className="w-full max-w-md mx-auto px-4 text-center">
-          <div className="rounded-2xl border border-border/60 bg-background/80 backdrop-blur-sm shadow-xl p-8">
+      <div className="login-page-bg min-h-screen flex items-center justify-center relative px-4 overflow-hidden">
+        <AuroraBlobs />
+        <div className="w-[480px] max-w-[calc(100vw-2rem)] mx-auto relative z-10 text-center">
+          <div className="login-card rounded-2xl p-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-5">
               <AlertCircle className="w-8 h-8 text-red-500" />
             </div>
-            <h1 className="text-xl font-semibold text-foreground mb-2">{t("config_error.title")}</h1>
+            <h1 className="font-display text-xl font-semibold text-foreground mb-2">{t("config_error.title")}</h1>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t("config_error.fetch_failed")}
             </p>
@@ -406,13 +399,14 @@ export default function LoginPage() {
 
   if (!serverUrl && !demoMode && !allowCustomJmapEndpoint) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/30">
-        <div className="w-full max-w-md mx-auto px-4 text-center">
-          <div className="rounded-2xl border border-border/60 bg-background/80 backdrop-blur-sm shadow-xl p-8">
+      <div className="login-page-bg min-h-screen flex items-center justify-center relative px-4 overflow-hidden">
+        <AuroraBlobs />
+        <div className="w-[480px] max-w-[calc(100vw-2rem)] mx-auto relative z-10 text-center">
+          <div className="login-card rounded-2xl p-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-5">
               <AlertCircle className="w-8 h-8 text-red-500" />
             </div>
-            <h1 className="text-xl font-semibold text-foreground mb-2">{t("config_error.title")}</h1>
+            <h1 className="font-display text-xl font-semibold text-foreground mb-2">{t("config_error.title")}</h1>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t("config_error.server_not_configured")}
             </p>
@@ -588,77 +582,63 @@ export default function LoginPage() {
   const currentThemeOption = THEME_OPTIONS.find(o => o.value === theme) || THEME_OPTIONS[2];
   const CurrentThemeIcon = currentThemeOption.icon;
 
+  const themeToggleJsx = (
+    <div className="absolute top-5 right-5 z-20" suppressHydrationWarning>
+      <div
+        className="flex items-center p-1 gap-0.5 rounded-xl login-theme-btn"
+        role="group"
+        aria-label="Theme selection"
+      >
+        {THEME_OPTIONS.map((option) => {
+          const Icon = option.icon;
+          const isActive = theme === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => handleThemeSelect(option.value)}
+              aria-label={option.label}
+              title={option.label}
+              className={cn(
+                "flex items-center justify-center w-8 h-7 rounded-lg transition-all duration-200",
+                isActive
+                  ? "text-white shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              style={isActive ? { background: "var(--login-gradient-btn)" } : undefined}
+            >
+              <Icon className="w-3.5 h-3.5" />
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   // Demo-only mode: show only a large demo login button
   if (demoMode && !isAddAccountMode) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-muted/10 to-muted/30 relative px-4">
-        {/* Theme toggle */}
-        <div className="absolute top-5 right-5" ref={themeMenuRef} suppressHydrationWarning>
-          <button
-            type="button"
-            onClick={() => setShowThemeMenu(!showThemeMenu)}
-            className={cn(
-              "flex items-center gap-2 px-3 py-2 rounded-xl border text-sm transition-all duration-200",
-              showThemeMenu
-                ? "bg-secondary border-border text-foreground shadow-md"
-                : "bg-background/60 backdrop-blur-sm border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary/80 hover:border-border"
-            )}
-            aria-label={`Theme: ${currentThemeOption.label}`}
-            aria-expanded={showThemeMenu}
-            aria-haspopup="listbox"
-          >
-            <CurrentThemeIcon className="w-4 h-4" />
-            <span className="hidden sm:inline" suppressHydrationWarning>{currentThemeOption.label}</span>
-          </button>
+      <div className="login-page-bg min-h-screen flex flex-col items-center justify-center relative px-4 overflow-hidden">
+        <AuroraBlobs />
+        {themeToggleJsx}
 
-          {showThemeMenu && (
-            <div
-              className="absolute right-0 top-full mt-2 w-40 rounded-xl border border-border bg-background shadow-lg overflow-hidden animate-fade-in z-50"
-              role="listbox"
-              aria-label="Theme selection"
-            >
-              {THEME_OPTIONS.map((option) => {
-                const Icon = option.icon;
-                const isActive = theme === option.value;
-                return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="option"
-                    aria-selected={isActive}
-                    onClick={() => handleThemeSelect(option.value)}
-                    className={cn(
-                      "w-full flex items-center gap-3 px-3.5 py-2.5 text-sm transition-colors",
-                      isActive
-                        ? "bg-primary/10 text-foreground font-medium"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                    )}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="flex-1 text-left">{option.label}</span>
-                    {isActive && <Check className="w-3.5 h-3.5 text-primary" />}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="w-full max-w-[440px] mx-auto">
-          <div className="rounded-2xl border border-border/60 bg-background/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20 overflow-hidden">
+        <div className="w-[480px] max-w-[calc(100vw-2rem)] mx-auto relative z-10">
+          <div className="login-card rounded-2xl overflow-hidden">
             {/* Header with logo */}
-            <div className="px-8 pt-12 pb-4 text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 mb-6">
+            <div className="px-8 pt-12 pb-4 flex flex-col items-center text-center">
+              <NexaBadge className="mb-5" />
+              <div className="flex items-center justify-center w-20 h-20 mb-6 animate-login-float relative">
+                <div className="login-logo-glow-ring" />
                 <img
                   src={resolvedTheme === 'dark' ? loginLogoDarkUrl : loginLogoLightUrl}
                   alt={appName}
-                  className="max-w-20 max-h-20 object-contain"
+                  className="max-w-20 max-h-20 object-contain relative z-10"
                 />
               </div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">
+              <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">
                 {appName}
               </h1>
-              <p className="text-base text-muted-foreground mt-2 max-w-xs mx-auto leading-relaxed">
+              <p className="text-base text-muted-foreground mt-2 max-w-xs leading-relaxed">
                 {t("demo_tagline")}
               </p>
             </div>
@@ -683,7 +663,7 @@ export default function LoginPage() {
 
               <Button
                 type="button"
-                className="w-full h-14 font-semibold text-lg bg-primary hover:bg-primary/90 transition-all duration-200 rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98]"
+                className="login-btn-primary w-full h-14 font-semibold text-lg rounded-xl"
                 onClick={handleDemoLogin}
                 disabled={demoLoading || isLoading}
               >
@@ -740,72 +720,25 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-muted/10 to-muted/30 relative px-4">
-      {/* Theme toggle - top right, dropdown style */}
-      <div className="absolute top-5 right-5" ref={themeMenuRef} suppressHydrationWarning>
-        <button
-          type="button"
-          onClick={() => setShowThemeMenu(!showThemeMenu)}
-          className={cn(
-            "flex items-center gap-2 px-3 py-2 rounded-xl border text-sm transition-all duration-200",
-            showThemeMenu
-              ? "bg-secondary border-border text-foreground shadow-md"
-              : "bg-background/60 backdrop-blur-sm border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary/80 hover:border-border"
-          )}
-          aria-label={`Theme: ${currentThemeOption.label}`}
-          aria-expanded={showThemeMenu}
-          aria-haspopup="listbox"
-        >
-          <CurrentThemeIcon className="w-4 h-4" />
-          <span className="hidden sm:inline" suppressHydrationWarning>{currentThemeOption.label}</span>
-        </button>
+    <div className="login-page-bg min-h-screen flex flex-col items-center justify-center relative px-4 overflow-hidden">
+      <AuroraBlobs />
+      {themeToggleJsx}
 
-        {showThemeMenu && (
-          <div
-            className="absolute right-0 top-full mt-2 w-40 rounded-xl border border-border bg-background shadow-lg overflow-hidden animate-fade-in z-50"
-            role="listbox"
-            aria-label="Theme selection"
-          >
-            {THEME_OPTIONS.map((option) => {
-              const Icon = option.icon;
-              const isActive = theme === option.value;
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  role="option"
-                  aria-selected={isActive}
-                  onClick={() => handleThemeSelect(option.value)}
-                  className={cn(
-                    "w-full flex items-center gap-3 px-3.5 py-2.5 text-sm transition-colors",
-                    isActive
-                      ? "bg-primary/10 text-foreground font-medium"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="flex-1 text-left">{option.label}</span>
-                  {isActive && <Check className="w-3.5 h-3.5 text-primary" />}
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      <div className="w-full max-w-[400px] mx-auto">
+      <div className="w-[480px] max-w-[calc(100vw-2rem)] mx-auto relative z-10">
         {/* Card container */}
-        <div className="rounded-2xl border border-border/60 bg-background/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20 overflow-hidden">
+        <div className="login-card rounded-2xl overflow-hidden">
           {/* Header section with logo */}
-          <div className="px-8 pt-10 pb-6 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 mb-5">
+          <div className="px-8 pt-10 pb-6 flex flex-col items-center text-center">
+            <NexaBadge />
+            <div className="flex items-center justify-center w-16 h-16 mb-5 animate-login-float relative">
+              <div className="login-logo-glow-ring" />
               <img
                 src={resolvedTheme === 'dark' ? loginLogoDarkUrl : loginLogoLightUrl}
                 alt={appName}
-                className="max-w-16 max-h-16 object-contain"
+                className="max-w-16 max-h-16 object-contain relative z-10"
               />
             </div>
-            <h1 className="text-2xl font-semibold text-foreground tracking-tight">
+            <h1 className="font-display text-2xl font-semibold text-foreground tracking-tight">
               {isAddAccountMode ? t("add_account_title") : appName}
             </h1>
             <p className="text-sm text-muted-foreground mt-1.5">
@@ -865,7 +798,7 @@ export default function LoginPage() {
               <div className="space-y-4">
                 <Button
                   type="button"
-                  className="w-full h-12 font-medium text-base bg-primary hover:bg-primary/90 transition-all duration-200 rounded-xl shadow-lg shadow-primary/20"
+                  className="login-btn-primary w-full h-12 font-medium text-base rounded-xl"
                   onClick={handleDevLogin}
                   disabled={isLoading}
                 >
@@ -882,7 +815,7 @@ export default function LoginPage() {
                   )}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
-                  Dev mode - logging in as dev@localhost
+                  Dev mode — logging in as dev@localhost
                 </p>
               </div>
             ) : oauthOnly ? (
@@ -891,7 +824,7 @@ export default function LoginPage() {
                 {oauthMetadata ? (
                   <Button
                     type="button"
-                    className="w-full h-11 font-medium text-[15px] bg-primary hover:bg-primary/90 transition-all duration-200 rounded-xl shadow-md shadow-primary/15 hover:shadow-lg hover:shadow-primary/20"
+                    className="login-btn-primary w-full h-11 font-medium text-[15px] rounded-xl"
                     onClick={handleOAuthLogin}
                     disabled={oauthLoading}
                   >
@@ -920,7 +853,7 @@ export default function LoginPage() {
                   </div>
                 ) : (
                   <div className="flex justify-center py-4">
-                    <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                    <Loader2 className="w-6 h-6 animate-spin" style={{ color: "var(--login-primary)" }} />
                   </div>
                 )}
               </div>
@@ -939,7 +872,7 @@ export default function LoginPage() {
                         value={selectedServer?.id ?? ""}
                         onChange={(e) => setSelectedServerId(e.target.value)}
                         disabled={domainAutoLocked}
-                        className="h-11 w-full px-3.5 bg-muted/40 border border-border/60 rounded-xl focus:bg-background focus:border-primary/50 transition-all duration-200 text-sm text-foreground disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="login-select-field h-11 w-full px-3.5 bg-muted/40 border border-border/60 rounded-xl transition-all duration-200 text-sm text-foreground disabled:opacity-70 disabled:cursor-not-allowed"
                       >
                         {jmapServers.map((s) => (
                           <option key={s.id} value={s.id}>{s.label}</option>
@@ -963,7 +896,7 @@ export default function LoginPage() {
                         type="url"
                         value={jmapEndpoint}
                         onChange={(e) => setJmapEndpoint(e.target.value)}
-                        className="h-11 px-3.5 bg-muted/40 border-border/60 rounded-xl focus:bg-background focus:border-primary/50 transition-all duration-200"
+                        className="login-input-field h-11 px-3.5 bg-muted/40 border-border/60 rounded-xl transition-all duration-200"
                         placeholder={t("jmap_endpoint_placeholder")}
                         required
                       />
@@ -987,7 +920,7 @@ export default function LoginPage() {
                         onChange={handleUsernameChange}
                         onFocus={handleUsernameFocus}
                         onKeyDown={handleKeyDown}
-                        className="h-11 px-3.5 bg-muted/40 border-border/60 rounded-xl focus:bg-background focus:border-primary/50 transition-all duration-200"
+                        className="login-input-field h-11 px-3.5 bg-muted/40 border-border/60 rounded-xl transition-all duration-200"
                         placeholder={t("username_placeholder")}
                         required
                         autoComplete="off"
@@ -1038,7 +971,7 @@ export default function LoginPage() {
                         type={showPassword ? "text" : "password"}
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="h-11 px-3.5 pr-11 bg-muted/40 border-border/60 rounded-xl focus:bg-background focus:border-primary/50 transition-all duration-200"
+                        className="login-input-field h-11 px-3.5 pr-11 bg-muted/40 border-border/60 rounded-xl transition-all duration-200"
                         placeholder={t("password_placeholder")}
                         required
                         autoComplete="current-password"
@@ -1086,8 +1019,8 @@ export default function LoginPage() {
                         value={totpCode}
                         onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ''))}
                         className={cn(
-                          "h-11 px-3.5 bg-muted/40 border-border/60 rounded-xl focus:bg-background focus:border-primary/50 transition-all duration-200 text-center font-mono tracking-widest",
-                          error === 'totp_required' && "border-primary ring-2 ring-primary/30"
+                          "login-input-field h-11 px-3.5 bg-muted/40 border-border/60 rounded-xl transition-all duration-200 text-center font-mono tracking-widest",
+                          error === 'totp_required' && "border-[var(--login-primary)] ring-2 ring-[var(--login-primary)]/20"
                         )}
                         placeholder={t("totp_placeholder")}
                         autoComplete="one-time-code"
@@ -1106,9 +1039,12 @@ export default function LoginPage() {
                           onChange={(e) => setRememberMe(e.target.checked)}
                           className="peer sr-only"
                         />
-                        <span className="flex items-center justify-center w-[18px] h-[18px] rounded-[5px] border border-border/80 bg-muted/40 peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background transition-all duration-200">
+                        <span
+                          className="flex items-center justify-center w-[18px] h-[18px] rounded-[5px] border border-border/80 bg-muted/40 transition-all duration-200 peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background"
+                          style={rememberMe ? { background: "var(--login-primary)", borderColor: "var(--login-primary)" } : undefined}
+                        >
                           {rememberMe && (
-                            <svg className="w-3 h-3 text-primary-foreground" viewBox="0 0 12 12" fill="none">
+                            <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
                               <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           )}
@@ -1123,7 +1059,7 @@ export default function LoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-11 font-medium text-[15px] bg-primary hover:bg-primary/90 transition-all duration-200 rounded-xl shadow-md shadow-primary/15 hover:shadow-lg hover:shadow-primary/20"
+                  className="login-btn-primary w-full h-11 font-medium text-[15px] rounded-xl"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -1143,17 +1079,17 @@ export default function LoginPage() {
                   <>
                     <div className="relative my-2">
                       <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t border-border/60" />
+                        <span className="w-full border-t border-border/40" />
                       </div>
                       <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background/80 px-3 text-muted-foreground">{t("or")}</span>
+                        <span className="bg-transparent px-3 text-muted-foreground/60">{t("or")}</span>
                       </div>
                     </div>
 
                     <Button
                       type="button"
                       variant="outline"
-                      className="w-full h-11 font-medium text-[15px] rounded-xl border-border/60 hover:bg-muted/50"
+                      className="w-full h-11 font-medium text-[15px] rounded-xl border-border/50 hover:border-[var(--login-primary)]/40 hover:bg-[var(--login-primary)]/5 transition-all duration-200"
                       onClick={handleOAuthLogin}
                       disabled={oauthLoading || isLoading}
                     >
@@ -1197,11 +1133,11 @@ export default function LoginPage() {
 
             {/* Demo Mode Button */}
             {demoMode && !isAddAccountMode && (
-              <div className="mt-4 pt-4 border-t border-border/40">
+              <div className="mt-4 pt-4 border-t border-border/30">
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full h-11 font-medium text-[15px] rounded-xl border-border/60 hover:bg-muted/50"
+                  className="w-full h-11 font-medium text-[15px] rounded-xl border-border/50 hover:border-[var(--login-primary)]/40 hover:bg-[var(--login-primary)]/5 transition-all duration-200"
                   onClick={handleDemoLogin}
                   disabled={demoLoading || isLoading}
                 >

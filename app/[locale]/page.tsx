@@ -54,6 +54,7 @@ import { isFilePreviewable } from "@/lib/file-preview";
 import { appendPlainTextSignature } from "@/lib/signature-utils";
 import { computeReplyThreadingHeaders } from "@/lib/email-threading";
 import { Search, Filter, ChevronDown, X, Paperclip, Star, Mail, MailOpen, RotateCcw, PenSquare, PenLine, CheckSquare, Square, AlertTriangle } from "lucide-react";
+import { AuroraLoadingScreen } from "@/components/ui/aurora-shell";
 import { ResizeHandle } from "@/components/layout/resize-handle";
 import { Button } from "@/components/ui/button";
 import { useConfig } from "@/hooks/use-config";
@@ -1645,16 +1646,8 @@ export default function Home() {
     await fetchEmails(client, selectedMailbox);
   };
 
-  // Show loading state while checking auth
   if (!initialCheckDone || authLoading || (!isAuthenticated || !client)) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground mx-auto"></div>
-          <p className="mt-4 text-sm text-muted-foreground">{t("common.loading")}</p>
-        </div>
-      </div>
-    );
+    return <AuroraLoadingScreen label={t("common.loading")} />;
   }
 
   // Get current mailbox name for mobile header

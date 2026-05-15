@@ -6,6 +6,7 @@ import { Shield } from 'lucide-react';
 import { useConfig } from '@/hooks/use-config';
 import { useThemeStore } from '@/stores/theme-store';
 import { apiFetch } from '@/lib/browser-navigation';
+import { AuroraBlobs, NexaBadge } from '@/components/ui/aurora-shell';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -44,52 +45,60 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-sm">
+    <div className="login-page-bg min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+      <AuroraBlobs />
+
+      <div className="relative z-10 w-full max-w-sm">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+          <NexaBadge label="Admin Panel" className="mb-6" />
+
+          <div className="relative flex items-center justify-center w-14 h-14 mb-4 animate-login-float">
+            <div className="login-logo-glow-ring" />
             {logoUrl ? (
-              <img src={logoUrl} alt="" className="w-8 h-8 object-contain" />
+              <img src={logoUrl} alt="" className="w-9 h-9 object-contain relative z-10" />
             ) : (
-              <Shield className="w-6 h-6 text-primary" />
+              <Shield className="w-8 h-8 relative z-10" style={{ color: 'var(--login-primary)' }} />
             )}
           </div>
-          <h1 className="text-xl font-semibold text-foreground">Admin Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-1">Enter your admin password to continue</p>
+
+          <h1 className="font-display text-2xl font-bold text-foreground tracking-tight">Admin Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1.5">Enter your admin password to continue</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-foreground mb-1.5">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground transition-all duration-200 placeholder:text-muted-foreground hover:border-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring"
-              placeholder="Enter admin password"
-              required
-              autoFocus
-              autoComplete="current-password"
-            />
-          </div>
-
-          {error && (
-            <div className="text-sm text-destructive bg-destructive/10 rounded-md px-3 py-2">
-              {error}
+        <div className="login-card rounded-2xl p-6 space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-foreground mb-1.5">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="login-input-field w-full h-11 px-3.5 bg-muted/40 border border-border/60 rounded-xl text-sm text-foreground placeholder:text-muted-foreground transition-all duration-200 outline-none"
+                placeholder="Enter admin password"
+                required
+                autoFocus
+                autoComplete="current-password"
+              />
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading || !password}
-            className="w-full h-10 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none transition-all duration-200 shadow-sm"
-          >
-            {loading ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
+            {error && (
+              <div className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading || !password}
+              className="login-btn-primary w-full h-11 rounded-xl font-medium text-[15px] flex items-center justify-center"
+            >
+              {loading ? 'Signing in…' : 'Sign in'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
