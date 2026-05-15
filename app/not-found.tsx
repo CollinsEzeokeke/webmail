@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useAuthStore } from "@/stores/auth-store";
 import { getPathPrefix } from "@/lib/browser-navigation";
+import { AuroraBlobs, NexaBadge } from "@/components/ui/aurora-shell";
 
 export default function NotFound() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -10,8 +11,6 @@ export default function NotFound() {
   useEffect(() => {
     if (!isAuthenticated) {
       const prefix = getPathPrefix();
-      // Don't redirect admin routes to the webmail login page. Admin paths
-      // are mounted relative to the deployment prefix, so account for it.
       const adminBase = `${prefix}/admin`;
       const isAdminRoute = window.location.pathname === adminBase || window.location.pathname.startsWith(`${adminBase}/`);
       if (!isAdminRoute) {
@@ -33,13 +32,19 @@ export default function NotFound() {
   const prefix = typeof window !== 'undefined' ? getPathPrefix() : '';
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center max-w-md px-4">
-        <h1 className="text-4xl font-bold text-foreground mb-2">404</h1>
-        <p className="text-muted-foreground mb-6">This page could not be found.</p>
+    <div className="login-page-bg min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+      <AuroraBlobs />
+
+      <div className="relative z-10 text-center max-w-md px-4">
+        <NexaBadge className="mb-6" />
+        <p className="text-[96px] font-display font-bold leading-none mt-2" style={{ color: "var(--login-primary)" }}>
+          404
+        </p>
+        <h1 className="text-xl font-semibold text-foreground mt-2 mb-2">Page not found</h1>
+        <p className="text-muted-foreground mb-8">This page could not be found. It may have been moved or deleted.</p>
         <a
           href={`${prefix}/`}
-          className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
+          className="login-btn-primary inline-flex items-center justify-center px-6 h-11 rounded-xl font-medium text-[15px]"
         >
           Go home
         </a>
