@@ -30,6 +30,8 @@ export interface AccountEntry {
   errorMessage?: string;
   /** Whether this is the default account (loaded on app start) */
   isDefault: boolean;
+  /** Base64 data URI of the user's profile photo */
+  profilePhotoUri?: string;
 }
 
 interface AccountState {

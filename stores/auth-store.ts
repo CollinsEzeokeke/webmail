@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { JMAPClient, RateLimitError } from '@/lib/jmap/client';
 import type { IJMAPClient } from '@/lib/jmap/client-interface';
 import { useIdentityStore } from './identity-store';
-import { useContactStore } from './contact-store';
+import { useContactStore, getContactPhotoUri } from './contact-store';
 import { useVacationStore } from './vacation-store';
 import { useCalendarStore } from './calendar-store';
 import { useFilterStore } from './filter-store';
@@ -233,7 +233,23 @@ function initializeFeatureStores(client: IJMAPClient): void {
     const contactStore = useContactStore.getState();
     contactStore.setSupportsSync(true);
     contactStore.fetchAddressBooks(client).catch((err) => debug.error('Failed to fetch address books:', err));
-    contactStore.fetchContacts(client).catch((err) => debug.error('Failed to fetch contacts:', err));
+    contactStore.fetchContacts(client).then(() => {
+      // After contacts load, hydrate profilePhotoUri in the account store from the
+      // user's self-contact so the account switcher shows the right photo on fresh login.
+      const authState = useAuthStore.getState();
+      const activeAccountId = authState.activeAccountId;
+      const ownEmail = (authState.primaryIdentity?.email || authState.username || '').toLowerCase();
+      if (!activeAccountId || !ownEmail) return;
+      const contacts = useContactStore.getState().contacts;
+      const selfContact = contacts.find(
+        (c) => c.emails && Object.values(c.emails).some((e) => e.address.toLowerCase() === ownEmail)
+      );
+      const photoUri = selfContact ? getContactPhotoUri(selfContact) : undefined;
+      const accountEntry = useAccountStore.getState().getAccountById(activeAccountId);
+      if (photoUri && accountEntry && accountEntry.profilePhotoUri !== photoUri) {
+        useAccountStore.getState().updateAccount(activeAccountId, { profilePhotoUri: photoUri });
+      }
+    }).catch((err) => debug.error('Failed to fetch contacts:', err));
   } else {
     useContactStore.getState().setSupportsSync(false);
   }

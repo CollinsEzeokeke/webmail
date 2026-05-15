@@ -191,6 +191,7 @@ interface SettingsState {
   disableThreading: boolean; // Show emails as individual messages instead of grouped by conversation
 
   senderFavicons: boolean;
+  gravatarEnabled: boolean;
   showAvatarsInJunk: boolean; // Show profile images/favicons in the junk folder
 
   // Sidebar
@@ -343,6 +344,7 @@ const DEFAULT_SETTINGS = {
   disableThreading: false,
 
   senderFavicons: true,
+  gravatarEnabled: true,
   showAvatarsInJunk: false,
 
   // Sidebar
@@ -487,6 +489,7 @@ export const useSettingsStore = create<SettingsState>()(
           showRailAccountList: state.showRailAccountList,
           enableUnifiedMailbox: state.enableUnifiedMailbox,
           senderFavicons: state.senderFavicons,
+          gravatarEnabled: state.gravatarEnabled,
           showAvatarsInJunk: state.showAvatarsInJunk,
           colorfulSidebarIcons: state.colorfulSidebarIcons,
           folderIcons: state.folderIcons,
