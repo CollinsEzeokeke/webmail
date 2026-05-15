@@ -53,9 +53,21 @@ function isEnabled(): boolean {
   return process.env.SETTINGS_SYNC_ENABLED === 'true' && (!!process.env.SESSION_SECRET || !!readFileEnv(process.env.SESSION_SECRET_FILE));
 }
 
-/** Strip trailing slashes so differently-formatted URLs still match. */
+/**
+ * Normalize a URL for identity comparison. Must match the normalization applied
+ * by normalizeJmapServerUrl at session-creation time so that client-supplied
+ * URLs (which may differ in case or have trailing slashes) still match the
+ * session cookie's stored serverUrl.
+ */
 function normalizeUrl(url: string): string {
-  return url.replace(/\/+$/, '');
+  try {
+    const u = new URL(url);
+    u.hash = '';
+    u.search = '';
+    return u.toString().replace(/\/+$/, '');
+  } catch {
+    return url.replace(/\/+$/, '');
+  }
 }
 
 /**
