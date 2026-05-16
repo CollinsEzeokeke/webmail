@@ -50,3 +50,6 @@ next-env.d.ts
 
 # Sibling repos
 /repos/
+
+# Local deploy script (contains server credentials)
+deploy.sh
