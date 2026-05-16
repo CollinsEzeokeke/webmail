@@ -627,7 +627,7 @@ export default function LoginPage() {
             {/* Header with logo */}
             <div className="px-8 pt-12 pb-4 flex flex-col items-center text-center">
               <NexaBadge className="mb-5" />
-              <div className="flex items-center justify-center w-20 h-20 mb-6 animate-login-float relative">
+              <div className="flex items-center justify-center w-20 h-20 mt-5 mb-6 animate-login-float relative">
                 <div className="login-logo-glow-ring" />
                 <img
                   src={resolvedTheme === 'dark' ? loginLogoDarkUrl : loginLogoLightUrl}
@@ -730,7 +730,7 @@ export default function LoginPage() {
           {/* Header section with logo */}
           <div className="px-8 pt-10 pb-6 flex flex-col items-center text-center">
             <NexaBadge />
-            <div className="flex items-center justify-center w-16 h-16 mb-5 animate-login-float relative">
+            <div className="flex items-center justify-center w-16 h-16 mt-5 mb-5 animate-login-float relative">
               <div className="login-logo-glow-ring" />
               <img
                 src={resolvedTheme === 'dark' ? loginLogoDarkUrl : loginLogoLightUrl}
